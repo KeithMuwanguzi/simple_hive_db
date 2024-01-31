@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:todo_app/screens/todo.dart';
 
-class NewTodo extends StatelessWidget {
+class NewTodo extends StatefulWidget {
   const NewTodo({super.key});
 
+  @override
+  State<NewTodo> createState() => _NewTodoState();
+}
+
+class _NewTodoState extends State<NewTodo> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<State>();
@@ -58,9 +63,13 @@ class NewTodo extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(100, 30, 100, 10),
                       child: ElevatedButton(
                         onPressed: () {
-                          final newTodo =
-                              Todo(title: title.text, text: text.text);
+                          final newTodo = Todo(
+                              title: title.text.trim(), text: text.text.trim());
                           addTodo(newTodo);
+                          setState(() {
+                            text.clear();
+                            title.clear();
+                          });
                         },
                         child: const Text("Add Todo"),
                       ),
